@@ -29,7 +29,12 @@ using namespace irrklang;
 float ROLL = 0;
 float PITCH = 0;
 float YAW = 0;
+unsigned int WAVEINCOUNTER = 1;
+unsigned int FINGSERSPREADCOUNTER = 1;
 myo::Pose CURRENTPOSE;
+int THRESHOLD = 21;
+float CURAVGROLL = (float)M_PI;   //to always center volume up/down based on most common resting position
+myo::Arm WHICHARM;
 
 class DataCollector : public myo::DeviceListener {
 public:
@@ -60,19 +65,31 @@ public:
         // Convert the floating point angles in radians to a scale from 0 to 20.
         roll_w = static_cast<int>((roll + (float)M_PI)/(M_PI * 2.0f) * 18);
         pitch_w = static_cast<int>((pitch + (float)M_PI/2.0f)/M_PI * 18);
+        
         yaw_w = static_cast<int>((yaw + (float)M_PI)/(M_PI * 2.0f) * 18);
+        if (CURRENTPOSE == myo::Pose::waveIn) {
+            WAVEINCOUNTER += 2;
+        }
+        if (CURRENTPOSE == myo::Pose::fingersSpread) {
+            FINGSERSPREADCOUNTER += 2;
+        }
+        if (WAVEINCOUNTER != 1) {
+            WAVEINCOUNTER -= 1;
+        }
     }
 
     // onPose() is called whenever the Myo detects that the person wearing it has changed their pose, for example,
     // making a fist, or not making a fist anymore.
     void onPose(myo::Myo* myo, uint64_t timestamp, myo::Pose pose)
     {
+        //register a wavein only if majority of recent samples are wavein
+        
         currentPose = pose;
         CURRENTPOSE = pose;
 
         // Vibrate the Myo whenever we've detected that the user has made a fist.
         if (pose == myo::Pose::fist) {
-            myo->vibrate(myo::Myo::vibrationMedium);
+            myo->vibrate(myo::Myo::vibrationShort);
         }
     }
 
@@ -82,6 +99,7 @@ public:
     {
         onArm = true;
         whichArm = arm;
+        WHICHARM = arm;
     }
 
     // onArmLost() is called whenever Myo has detected that it was moved from a stable position on a person's arm after
@@ -137,7 +155,45 @@ int main(int argc, char** argv)
 {
     // We catch any exceptions that might occur below -- see the catch statement for more details.
     try {
-        //
+        // First, we create a Hub with our application identifier. Be sure not to use the com.example namespace when
+        // publishing your application. The Hub provides access to one or more Myos.
+        myo::Hub hub("com.example.hello-myo");
+        std::cout << "Attempting to find a Myo..." << std::endl;
+    
+        // Next, we attempt to find a Myo to use. If a Myo is already paired in Myo Connect, this will return that Myo
+        // immediately.
+        // waitForAnyMyo() takes a timeout value in milliseconds. In this case we will try to find a Myo for 10 seconds, and
+        // if that fails, the function will return a null pointer.
+        myo::Myo* myo = hub.waitForMyo(10000);
+
+        // If waitForAnyMyo() returned a null pointer, we failed to find a Myo, so exit with an error message.
+        if (!myo) {
+            throw std::runtime_error("Unable to find a Myo!");
+        }
+        // We've found a Myo.
+        std::cout << "Connected to a Myo armband!" << std::endl << std::endl;
+
+        // Next we construct an instance of our DeviceListener, so that we can register it with the Hub.
+        DataCollector collector;
+
+        // Hub::addListener() takes the address of any object whose class inherits from DeviceListener, and will cause
+        // Hub::run() to send events to all registered device listeners.
+        hub.addListener(&collector);
+        
+        //CALIBRATE FOR SIMULATED SPATIAL LOCATION
+        //Copy the start position of the calibration gesture during this time.
+        double roll_orient = 0;
+        double yaw_orient = 0;
+        for(int i=0; i<50; i++) {   //about 1 second of sampling - keep still!
+            hub.run(1000/20);
+            roll_orient += ROLL;
+            yaw_orient += YAW;
+        }
+        roll_orient /= 50;
+        yaw_orient /= 50;
+        
+        int hand;
+        
         // start the sound engine with default parameters
         ISoundEngine* engine = createIrrKlangDevice();
         if (!engine)
@@ -146,93 +202,69 @@ int main(int argc, char** argv)
             return 0; // error starting up the engine
         }
         // play some sound stream, looped
-<<<<<<< HEAD
         
         ISound *samples[3];
         
-//        ISound* ophelia = engine->play3D("ophelia.mp3", vec3df(0,0,0), true, false, true);
-        samples[0] = engine->play3D("ophelia.mp3", vec3df(0,0,0), true, false, true);
-        samples[1] = engine->play3d("", vec3df(0,0,0), true, false, true);
-
-
-//        engine->play3D("bell.wav", vec3df(0,0,0), true, false, true);
+        samples[0] = engine->play3D("BeatK03B 70-01.wav", vec3df(0,0,0), true, false, true);
+        samples[1] = engine->play3D("GrulerK03 70B-01.wav", vec3df(0,0,0), true, false, true);
+        samples[2] = engine->play3D("Wind-Mark_DiAngelo-1940285615.wav", vec3df(0,0,0), true, false, true);
+        
+        for(int i = 0; i < 3; i++) {
+            samples[i]->setPosition(vec3df(0,0,1));
+        }
+        
         engine->setListenerPosition(vec3df(0,0,0), vec3df(0,0,1));
-
-    //
-=======
-        ISound* ophelia = engine->play3D("ophelia.mp3", vec3df(0,0,0), true, false, true);
-        // engine->play3D("bell.wav", vec3df(0,0,0), true, false, true);
-        //
-        // In a loop, wait until user presses 'q' to exit or another key to
-        // play another sound.
-        printf("\nHello World!\n");
-        // engine->play2D("bell.wav");
-        // play some sound stream, looped, in 3D space
->>>>>>> a7aa5c19059a27faeb261291ff1cc319552e30cf
-    // First, we create a Hub with our application identifier. Be sure not to use the com.example namespace when
-    // publishing your application. The Hub provides access to one or more Myos.
-    myo::Hub hub("com.example.hello-myo");
-    std::cout << "Attempting to find a Myo..." << std::endl;
-    //
-    // Next, we attempt to find a Myo to use. If a Myo is already paired in Myo Connect, this will return that Myo
-    // immediately.
-    // waitForAnyMyo() takes a timeout value in milliseconds. In this case we will try to find a Myo for 10 seconds, and
-    // if that fails, the function will return a null pointer.
-    myo::Myo* myo = hub.waitForMyo(10000);
-    //
-    // If waitForAnyMyo() returned a null pointer, we failed to find a Myo, so exit with an error message.
-    if (!myo) {
-        throw std::runtime_error("Unable to find a Myo!");
-    }
-    // We've found a Myo.
-    std::cout << "Connected to a Myo armband!" << std::endl << std::endl;
-
-    // Next we construct an instance of our DeviceListener, so that we can register it with the Hub.
-    DataCollector collector;
-
-    // Hub::addListener() takes the address of any object whose class inherits from DeviceListener, and will cause
-    // Hub::run() to send events to all registered device listeners.
-    hub.addListener(&collector);
-<<<<<<< HEAD
         
-//    float posOnCircle = 0;
-=======
-    //
-    float posOnCircle = 0;
->>>>>>> a7aa5c19059a27faeb261291ff1cc319552e30cf
-    const float radius = 5;
+        const float radius = 1;
+        int currentSample = 0;
+        float vol = .5;
         
-    while(1)
-    {
-        // In each iteration of our main loop, we run the Myo event loop for a set number of milliseconds.
-        // In this case, we wish to update our display 20 times a second, so we run for 1000/20 milliseconds.
-        hub.run(1000/20);
-        // After processing events, we call the print() member function we defined above to print out the values we've
-        // obtained from any events that have occurred.
-        //
-        // printf("Press any key to play some sound, press 'q' to quit.\n");
-        // play a single sound
-        collector.print();
-        
-		vec3df pos3d(radius * cosf(YAW), 0, radius * sinf(YAW));
-        
-        if (CURRENTPOSE == myo::Pose::fist) {
-            if (samples[0])
-                samples[0]->setPosition(pos3d);
-        }
-        
-        if (CURRENTPOSE == myo::Pose::waveIn) {
+        while(1)
+        {
+            // In each iteration of our main loop, we run the Myo event loop for a set number of milliseconds.
+            // In this case, we wish to update our display 20 times a second, so we run for 1000/20 milliseconds.
+            hub.run(1000/20);
             
+            // After processing events, we call the print() member function we defined above to print out the values we've
+            // obtained from any events that have occurred.
+            //
+            // printf("Press any key to play some sound, press 'q' to quit.\n");
+            // play a single sound
+            collector.print();
+        
+            vec3df pos3d(radius * 2*cosf(YAW + yaw_orient - M_PI/2), 0, radius * 2*x`sinf(YAW + yaw_orient - M_PI/2));
+            
+            (WHICHARM == myo::armLeft ? hand=1 : hand=-1);
+            vol = hand*(-ROLL) + roll_orient + 1;
+            
+            if (vol > 1)
+                vol = 1;
+            if (vol < 0)
+                vol = 0;
+        
+            if (CURRENTPOSE == myo::Pose::fist) {
+                if (samples[currentSample]) {
+                    samples[currentSample]->setPosition(pos3d);            }
+            }
+            if (CURRENTPOSE == myo::Pose::fingersSpread) {
+                if (samples[currentSample]) {
+                    samples[currentSample]->setVolume(vol);
+                }
+            }
+            if (CURRENTPOSE == myo::Pose::waveIn && WAVEINCOUNTER > THRESHOLD) {
+                currentSample += 1;
+                currentSample %= 3;
+                WAVEINCOUNTER = 1;
+            }
+            
+            std::cout << '[' << "Sample: " << currentSample << "    Thresh: " << WAVEINCOUNTER << "    Vol: " << vol << "   roll/yaw orient: " << roll_orient << "  " << yaw_orient << "]";
+
         }
-
-
-    }
-//    while(getch() != 'q');
-    // If a standard exception occurred, we print out its message and exit.
-    } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << std::endl;
-        std::cerr << "Press enter to continue.";
-        std::cin.ignore();
-        return 1;
-    }
+        // If a standard exception occurred, we print out its message and exit.
+        } catch (const std::exception& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+            std::cerr << "Press enter to continue.";
+            std::cin.ignore();
+            return 1;
+        }
 }
