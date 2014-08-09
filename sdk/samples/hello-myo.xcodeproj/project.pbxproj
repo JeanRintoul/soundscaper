@@ -10,9 +10,7 @@
 		4D04ADE519266DE6006E1C84 /* hello-myo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4D04ADE419266DE6006E1C84 /* hello-myo.cpp */; };
 		4D04ADE719266DF9006E1C84 /* myo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D04ADE619266DF9006E1C84 /* myo.framework */; };
 		4D63875C192670E5005BE0A6 /* myo.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 4D04ADE619266DF9006E1C84 /* myo.framework */; };
-		758E2D8C199603DD00616B19 /* libirrklang.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 758E2D8B199603DD00616B19 /* libirrklang.dylib */; };
-		758E2D8E1996041000616B19 /* ikpMP3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 758E2D8D1996041000616B19 /* ikpMP3.dylib */; };
-		758E2D901996041900616B19 /* ikpFLAC.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 758E2D8F1996041900616B19 /* ikpFLAC.dylib */; };
+		758E2DAB1996167E00616B19 /* libirrklang.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 758E2DAA1996167E00616B19 /* libirrklang.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -32,9 +30,6 @@
 		4D04ADE419266DE6006E1C84 /* hello-myo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "hello-myo.cpp"; sourceTree = SOURCE_ROOT; };
 		4D04ADE619266DF9006E1C84 /* myo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = myo.framework; path = ../myo.framework; sourceTree = SOURCE_ROOT; };
 		4D1F5A95192655EE002845BB /* hello-myo */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "hello-myo"; sourceTree = BUILT_PRODUCTS_DIR; };
-		758E2D8B199603DD00616B19 /* libirrklang.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libirrklang.dylib; sourceTree = "<group>"; };
-		758E2D8D1996041000616B19 /* ikpMP3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = ikpMP3.dylib; sourceTree = "<group>"; };
-		758E2D8F1996041900616B19 /* ikpFLAC.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = ikpFLAC.dylib; sourceTree = "<group>"; };
 		758E2D92199605A600616B19 /* ik_ESoundEngineOptions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ik_ESoundEngineOptions.h; sourceTree = "<group>"; };
 		758E2D93199605A600616B19 /* ik_ESoundOutputDrivers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ik_ESoundOutputDrivers.h; sourceTree = "<group>"; };
 		758E2D94199605A600616B19 /* ik_EStreamModes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ik_EStreamModes.h; sourceTree = "<group>"; };
@@ -56,6 +51,8 @@
 		758E2DA4199605A600616B19 /* ik_SAudioStreamFormat.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ik_SAudioStreamFormat.h; sourceTree = "<group>"; };
 		758E2DA5199605A600616B19 /* ik_vec3d.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ik_vec3d.h; sourceTree = "<group>"; };
 		758E2DA6199605A600616B19 /* irrKlang.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = irrKlang.h; sourceTree = "<group>"; };
+		758E2DA9199614A400616B19 /* conio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = conio.h; sourceTree = "<group>"; };
+		758E2DAA1996167E00616B19 /* libirrklang.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libirrklang.dylib; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,10 +60,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				758E2D8C199603DD00616B19 /* libirrklang.dylib in Frameworks */,
-				758E2D901996041900616B19 /* ikpFLAC.dylib in Frameworks */,
+				758E2DAB1996167E00616B19 /* libirrklang.dylib in Frameworks */,
 				4D04ADE719266DF9006E1C84 /* myo.framework in Frameworks */,
-				758E2D8E1996041000616B19 /* ikpMP3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,9 +72,6 @@
 			isa = PBXGroup;
 			children = (
 				758E2D911996059900616B19 /* irklang */,
-				758E2D8B199603DD00616B19 /* libirrklang.dylib */,
-				758E2D8F1996041900616B19 /* ikpFLAC.dylib */,
-				758E2D8D1996041000616B19 /* ikpMP3.dylib */,
 				4D1F5A97192655EE002845BB /* hello-myo */,
 				4D1F5AA31926563B002845BB /* Frameworks */,
 				4D1F5A96192655EE002845BB /* Products */,
@@ -105,6 +97,7 @@
 		4D1F5AA31926563B002845BB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				758E2DAA1996167E00616B19 /* libirrklang.dylib */,
 				4D04ADE619266DF9006E1C84 /* myo.framework */,
 			);
 			name = Frameworks;
@@ -114,6 +107,7 @@
 		758E2D911996059900616B19 /* irklang */ = {
 			isa = PBXGroup;
 			children = (
+				758E2DA9199614A400616B19 /* conio.h */,
 				758E2D92199605A600616B19 /* ik_ESoundEngineOptions.h */,
 				758E2D93199605A600616B19 /* ik_ESoundOutputDrivers.h */,
 				758E2D94199605A600616B19 /* ik_EStreamModes.h */,
@@ -274,6 +268,7 @@
 					"$(inherited)",
 					$SOURCE_ROOT/../,
 				);
+				GCC_VERSION = "";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -290,6 +285,7 @@
 					"$(inherited)",
 					$SOURCE_ROOT/../,
 				);
+				GCC_VERSION = "";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

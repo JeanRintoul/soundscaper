@@ -6,10 +6,19 @@
 #include <iomanip>
 #include <stdexcept>
 #include <string>
+//
+#if defined(WIN32)
+#include <conio.h>
+#else
+#include "conio.h"
+#endif
+
 #include "irrKlang.h"
-
+//
 using namespace irrklang;
-
+// 
+//#pragma comment(lib, "irrKlang.lib") // link with irrKlang.dll
+//
 // The only file that needs to be included to use the Myo C++ SDK is myo.hpp.
 #include <myo/myo.hpp>
 
@@ -116,7 +125,45 @@ int main(int argc, char** argv)
 {
     // We catch any exceptions that might occur below -- see the catch statement for more details.
     try {
-
+//
+//        // start the sound engine with default parameters
+        ISoundEngine* engine = createIrrKlangDevice();
+        if (!engine)
+        {
+            printf("Could not startup engine\n");
+            return 0; // error starting up the engine
+        }
+////
+        // To play a sound, we only to call play2D(). The second parameter
+        // tells the engine to play it looped.
+        
+        // play some sound stream, looped
+        engine->play2D("../../media/getout.ogg", true);
+        
+        // In a loop, wait until user presses 'q' to exit or another key to
+        // play another sound.
+        
+        printf("\nHello World!\n");
+        
+        do
+        {
+            printf("Press any key to play some sound, press 'q' to quit.\n");
+            
+            // play a single sound
+            engine->play2D("../../media/bell.wav");
+        }
+        while(getch() != 'q');
+        
+        // After we are finished, we have to delete the irrKlang Device created earlier
+        // with createIrrKlangDevice(). Use ::drop() to do that. In irrKlang, you should
+        // delete all objects you created with a method or function that starts with 'create'.
+        // (an exception is the play2D()- or play3D()-method, see the documentation or the
+        // next example for an explanation)
+        // The object is deleted simply by calling ->drop().
+        
+        engine->drop(); // delete engine
+        
+        
     // First, we create a Hub with our application identifier. Be sure not to use the com.example namespace when
     // publishing your application. The Hub provides access to one or more Myos.
     myo::Hub hub("com.example.hello-myo");
