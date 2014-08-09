@@ -145,10 +145,8 @@ int main(int argc, char** argv)
             printf("Could not startup engine\n");
             return 0; // error starting up the engine
         }
-
-        // To play a sound, we only to call play2D(). The second parameter
-        // tells the engine to play it looped.
         // play some sound stream, looped
+<<<<<<< HEAD
         
         ISound *samples[3];
         
@@ -161,17 +159,27 @@ int main(int argc, char** argv)
         engine->setListenerPosition(vec3df(0,0,0), vec3df(0,0,1));
 
     //
+=======
+        ISound* ophelia = engine->play3D("ophelia.mp3", vec3df(0,0,0), true, false, true);
+        // engine->play3D("bell.wav", vec3df(0,0,0), true, false, true);
+        //
+        // In a loop, wait until user presses 'q' to exit or another key to
+        // play another sound.
+        printf("\nHello World!\n");
+        // engine->play2D("bell.wav");
+        // play some sound stream, looped, in 3D space
+>>>>>>> a7aa5c19059a27faeb261291ff1cc319552e30cf
     // First, we create a Hub with our application identifier. Be sure not to use the com.example namespace when
     // publishing your application. The Hub provides access to one or more Myos.
     myo::Hub hub("com.example.hello-myo");
     std::cout << "Attempting to find a Myo..." << std::endl;
-
+    //
     // Next, we attempt to find a Myo to use. If a Myo is already paired in Myo Connect, this will return that Myo
     // immediately.
     // waitForAnyMyo() takes a timeout value in milliseconds. In this case we will try to find a Myo for 10 seconds, and
     // if that fails, the function will return a null pointer.
     myo::Myo* myo = hub.waitForMyo(10000);
-
+    //
     // If waitForAnyMyo() returned a null pointer, we failed to find a Myo, so exit with an error message.
     if (!myo) {
         throw std::runtime_error("Unable to find a Myo!");
@@ -185,8 +193,13 @@ int main(int argc, char** argv)
     // Hub::addListener() takes the address of any object whose class inherits from DeviceListener, and will cause
     // Hub::run() to send events to all registered device listeners.
     hub.addListener(&collector);
+<<<<<<< HEAD
         
 //    float posOnCircle = 0;
+=======
+    //
+    float posOnCircle = 0;
+>>>>>>> a7aa5c19059a27faeb261291ff1cc319552e30cf
     const float radius = 5;
         
     while(1)

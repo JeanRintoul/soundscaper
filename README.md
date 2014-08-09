@@ -1,4 +1,3 @@
-herohacks
+Thalmic Labs Myo and Irrklang
 =========
-
-herohacks 
+Thalmic Labs Myo mixed with a 3D sound library - mix music in 3 dimensions! 
