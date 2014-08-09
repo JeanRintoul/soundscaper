@@ -17,7 +17,7 @@
 //
 using namespace irrklang;
 // 
-//#pragma comment(lib, "irrKlang.lib") // link with irrKlang.dll
+#pragma comment(lib, "irrKlang.lib") // link with irrKlang.dll
 //
 // The only file that needs to be included to use the Myo C++ SDK is myo.hpp.
 #include <myo/myo.hpp>
@@ -125,49 +125,49 @@ int main(int argc, char** argv)
 {
     // We catch any exceptions that might occur below -- see the catch statement for more details.
     try {
-//
-//        // start the sound engine with default parameters
+        //
+        // start the sound engine with default parameters
         ISoundEngine* engine = createIrrKlangDevice();
         if (!engine)
         {
             printf("Could not startup engine\n");
             return 0; // error starting up the engine
         }
-////
+
         // To play a sound, we only to call play2D(). The second parameter
         // tells the engine to play it looped.
-        
         // play some sound stream, looped
-        engine->play2D("../../media/getout.ogg", true);
+        engine->play2D("ophelia.mp3", true);
         
         // In a loop, wait until user presses 'q' to exit or another key to
         // play another sound.
-        
         printf("\nHello World!\n");
-        
-        do
-        {
-            printf("Press any key to play some sound, press 'q' to quit.\n");
-            
+        //engine->play2D("bell.wav");
+        // play some sound stream, looped, in 3D space
+//
+//        ISound* music = engine->play3D("../ophelia.mp3",
+//                                       vec3df(0,0,0), true, false, true);
+//        if (music)
+//            music->setMinDistance(5.0f);
+        //
+        //do
+        //{
+           // printf("Press any key to play some sound, press 'q' to quit.\n");
             // play a single sound
-            engine->play2D("../../media/bell.wav");
-        }
-        while(getch() != 'q');
         
+        //}
+        //while(getch() != 'q');
         // After we are finished, we have to delete the irrKlang Device created earlier
         // with createIrrKlangDevice(). Use ::drop() to do that. In irrKlang, you should
         // delete all objects you created with a method or function that starts with 'create'.
         // (an exception is the play2D()- or play3D()-method, see the documentation or the
         // next example for an explanation)
         // The object is deleted simply by calling ->drop().
-        
-        engine->drop(); // delete engine
-        
-        
+ // delete engine
+    //
     // First, we create a Hub with our application identifier. Be sure not to use the com.example namespace when
     // publishing your application. The Hub provides access to one or more Myos.
     myo::Hub hub("com.example.hello-myo");
-
     std::cout << "Attempting to find a Myo..." << std::endl;
 
     // Next, we attempt to find a Myo to use. If a Myo is already paired in Myo Connect, this will return that Myo
@@ -180,7 +180,6 @@ int main(int argc, char** argv)
     if (!myo) {
         throw std::runtime_error("Unable to find a Myo!");
     }
-
     // We've found a Myo.
     std::cout << "Connected to a Myo armband!" << std::endl << std::endl;
 
@@ -190,17 +189,21 @@ int main(int argc, char** argv)
     // Hub::addListener() takes the address of any object whose class inherits from DeviceListener, and will cause
     // Hub::run() to send events to all registered device listeners.
     hub.addListener(&collector);
-
-    // Finally we enter our main loop.
-    while (1) {
+    //
+    do
+    {
         // In each iteration of our main loop, we run the Myo event loop for a set number of milliseconds.
         // In this case, we wish to update our display 20 times a second, so we run for 1000/20 milliseconds.
         hub.run(1000/20);
         // After processing events, we call the print() member function we defined above to print out the values we've
         // obtained from any events that have occurred.
         collector.print();
+        //
+        // printf("Press any key to play some sound, press 'q' to quit.\n");
+        // play a single sound
+        engine->play2D("bell.wav");
     }
-
+    while(getch() != 'q');
     // If a standard exception occurred, we print out its message and exit.
     } catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;

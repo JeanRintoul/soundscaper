@@ -53,6 +53,10 @@
 		758E2DA6199605A600616B19 /* irrKlang.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = irrKlang.h; sourceTree = "<group>"; };
 		758E2DA9199614A400616B19 /* conio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = conio.h; sourceTree = "<group>"; };
 		758E2DAA1996167E00616B19 /* libirrklang.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libirrklang.dylib; sourceTree = SOURCE_ROOT; };
+		758E2DB51996190300616B19 /* bell.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = bell.wav; sourceTree = "<group>"; };
+		758E2DB61996190C00616B19 /* explosion.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = explosion.wav; sourceTree = "<group>"; };
+		758E2DB71996191300616B19 /* getout.ogg */ = {isa = PBXFileReference; lastKnownFileType = file; path = getout.ogg; sourceTree = "<group>"; };
+		758E2DB819961B3200616B19 /* ophelia.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ophelia.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +75,10 @@
 		4D1F5A8C192655EE002845BB = {
 			isa = PBXGroup;
 			children = (
+				758E2DB71996191300616B19 /* getout.ogg */,
+				758E2DB51996190300616B19 /* bell.wav */,
+				758E2DB61996190C00616B19 /* explosion.wav */,
+				758E2DB819961B3200616B19 /* ophelia.mp3 */,
 				758E2D911996059900616B19 /* irklang */,
 				4D1F5A97192655EE002845BB /* hello-myo */,
 				4D1F5AA31926563B002845BB /* Frameworks */,
