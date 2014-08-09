@@ -25,6 +25,12 @@ using namespace irrklang;
 // Classes that inherit from myo::DeviceListener can be used to receive events from Myo devices. DeviceListener
 // provides several virtual functions for handling different kinds of events. If you do not override an event, the
 // default behavior is to do nothing.
+
+float ROLL = 0;
+float PITCH = 0;
+float YAW = 0;
+myo::Pose CURRENTPOSE;
+
 class DataCollector : public myo::DeviceListener {
 public:
     DataCollector()
@@ -45,6 +51,11 @@ public:
         float pitch = asin(2.0f * (quat.w() * quat.y() - quat.z() * quat.x()));
         float yaw = atan2(2.0f * (quat.w() * quat.z() + quat.x() * quat.y()),
                         1.0f - 2.0f * (quat.y() * quat.y() + quat.z() * quat.z()));
+        
+        //hacky globals
+        ROLL = roll;
+        PITCH = pitch;
+        YAW = yaw;
 
         // Convert the floating point angles in radians to a scale from 0 to 20.
         roll_w = static_cast<int>((roll + (float)M_PI)/(M_PI * 2.0f) * 18);
@@ -57,6 +68,7 @@ public:
     void onPose(myo::Myo* myo, uint64_t timestamp, myo::Pose pose)
     {
         currentPose = pose;
+        CURRENTPOSE = pose;
 
         // Vibrate the Myo whenever we've detected that the user has made a fist.
         if (pose == myo::Pose::fist) {
@@ -137,34 +149,17 @@ int main(int argc, char** argv)
         // To play a sound, we only to call play2D(). The second parameter
         // tells the engine to play it looped.
         // play some sound stream, looped
-        ISound* ophelia = engine->play3D("ophelia.mp3", vec3df(0,0,0), true, false, true);
-//        engine->play3D("bell.wav", vec3df(0,0,0), true, false, true);
-
-        // In a loop, wait until user presses 'q' to exit or another key to
-        // play another sound.
-        printf("\nHello World!\n");
-        //engine->play2D("bell.wav");
-        // play some sound stream, looped, in 3D space
-//
-//        ISound* music = engine->play3D("../ophelia.mp3",
-//                                       vec3df(0,0,0), true, false, true);
-//        if (music)
-//            music->setMinDistance(5.0f);
-        //
-        //do
-        //{
-           // printf("Press any key to play some sound, press 'q' to quit.\n");
-            // play a single sound
         
-        //}
-        //while(getch() != 'q');
-        // After we are finished, we have to delete the irrKlang Device created earlier
-        // with createIrrKlangDevice(). Use ::drop() to do that. In irrKlang, you should
-        // delete all objects you created with a method or function that starts with 'create'.
-        // (an exception is the play2D()- or play3D()-method, see the documentation or the
-        // next example for an explanation)
-        // The object is deleted simply by calling ->drop().
- // delete engine
+        ISound *samples[3];
+        
+//        ISound* ophelia = engine->play3D("ophelia.mp3", vec3df(0,0,0), true, false, true);
+        samples[0] = engine->play3D("ophelia.mp3", vec3df(0,0,0), true, false, true);
+        samples[1] = engine->play3d("", vec3df(0,0,0), true, false, true);
+
+
+//        engine->play3D("bell.wav", vec3df(0,0,0), true, false, true);
+        engine->setListenerPosition(vec3df(0,0,0), vec3df(0,0,1));
+
     //
     // First, we create a Hub with our application identifier. Be sure not to use the com.example namespace when
     // publishing your application. The Hub provides access to one or more Myos.
@@ -190,10 +185,8 @@ int main(int argc, char** argv)
     // Hub::addListener() takes the address of any object whose class inherits from DeviceListener, and will cause
     // Hub::run() to send events to all registered device listeners.
     hub.addListener(&collector);
-    //
-
         
-    float posOnCircle = 0;
+//    float posOnCircle = 0;
     const float radius = 5;
         
     while(1)
@@ -208,15 +201,17 @@ int main(int argc, char** argv)
         // play a single sound
         collector.print();
         
+		vec3df pos3d(radius * cosf(YAW), 0, radius * sinf(YAW));
         
-        posOnCircle += 0.01f;
-		vec3df pos3d(radius * cosf(posOnCircle), 0,
-                     radius * sinf(posOnCircle * 0.5f));
+        if (CURRENTPOSE == myo::Pose::fist) {
+            if (samples[0])
+                samples[0]->setPosition(pos3d);
+        }
         
-        engine->setListenerPosition(vec3df(0,0,0), vec3df(0,0,1));
-        
-		if (ophelia)
-			ophelia->setPosition(pos3d);
+        if (CURRENTPOSE == myo::Pose::waveIn) {
+            
+        }
+
 
     }
 //    while(getch() != 'q');
