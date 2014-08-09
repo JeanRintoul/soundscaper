@@ -137,8 +137,9 @@ int main(int argc, char** argv)
         // To play a sound, we only to call play2D(). The second parameter
         // tells the engine to play it looped.
         // play some sound stream, looped
-        engine->play2D("ophelia.mp3", true);
-        
+        ISound* ophelia = engine->play3D("ophelia.mp3", vec3df(0,0,0), true, false, true);
+//        engine->play3D("bell.wav", vec3df(0,0,0), true, false, true);
+
         // In a loop, wait until user presses 'q' to exit or another key to
         // play another sound.
         printf("\nHello World!\n");
@@ -190,20 +191,35 @@ int main(int argc, char** argv)
     // Hub::run() to send events to all registered device listeners.
     hub.addListener(&collector);
     //
-    do
+
+        
+    float posOnCircle = 0;
+    const float radius = 5;
+        
+    while(1)
     {
         // In each iteration of our main loop, we run the Myo event loop for a set number of milliseconds.
         // In this case, we wish to update our display 20 times a second, so we run for 1000/20 milliseconds.
         hub.run(1000/20);
         // After processing events, we call the print() member function we defined above to print out the values we've
         // obtained from any events that have occurred.
-        collector.print();
         //
         // printf("Press any key to play some sound, press 'q' to quit.\n");
         // play a single sound
-        engine->play2D("bell.wav");
+        collector.print();
+        
+        
+        posOnCircle += 0.01f;
+		vec3df pos3d(radius * cosf(posOnCircle), 0,
+                     radius * sinf(posOnCircle * 0.5f));
+        
+        engine->setListenerPosition(vec3df(0,0,0), vec3df(0,0,1));
+        
+		if (ophelia)
+			ophelia->setPosition(pos3d);
+
     }
-    while(getch() != 'q');
+//    while(getch() != 'q');
     // If a standard exception occurred, we print out its message and exit.
     } catch (const std::exception& e) {
         std::cerr << "Error: " << e.what() << std::endl;

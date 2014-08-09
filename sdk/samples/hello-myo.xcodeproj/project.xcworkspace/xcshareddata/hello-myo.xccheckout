@@ -5,34 +5,34 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>08FCDE65-35FD-4159-825B-7542C31F3065</string>
+	<string>6939808C-056F-49FE-835F-6DE7E6FC988B</string>
 	<key>IDESourceControlProjectName</key>
 	<string>hello-myo</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>20354D05-0629-4397-8389-8AF1A5E267F3</key>
-		<string>https://github.com/JeanRintoul/herohacks.git</string>
+		<key>1E8CF3E1-8A75-4C9C-9AAC-857EBE8CC23D</key>
+		<string>https://github.com/JeanRintoul/herohacks</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>sdk/samples/hello-myo.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>20354D05-0629-4397-8389-8AF1A5E267F3</key>
+		<key>1E8CF3E1-8A75-4C9C-9AAC-857EBE8CC23D</key>
 		<string>../../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/JeanRintoul/herohacks.git</string>
+	<string>https://github.com/JeanRintoul/herohacks</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>20354D05-0629-4397-8389-8AF1A5E267F3</string>
+	<string>1E8CF3E1-8A75-4C9C-9AAC-857EBE8CC23D</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>20354D05-0629-4397-8389-8AF1A5E267F3</string>
+			<string>1E8CF3E1-8A75-4C9C-9AAC-857EBE8CC23D</string>
 			<key>IDESourceControlWCCName</key>
 			<string>herohacks</string>
 		</dict>
